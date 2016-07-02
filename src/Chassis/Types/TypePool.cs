@@ -10,27 +10,29 @@ namespace Chassis.Types
     {
         readonly IList<Assembly> _assemblies;
         Lazy<IEnumerable<Type>> _types;
-        readonly IList<Type> _explicitTypes;
 
         public TypePool(params Assembly[] assemblies)
         {
             _assemblies = new List<Assembly>(assemblies);
             _types = new Lazy<IEnumerable<Type>>(BuildUp);
-            _explicitTypes = new List<Type>();
+            ExplicitTypes = new List<Type>();
         }
+
         public TypePool() : this(new Assembly[0])
         {
         }
 
-        public Assembly[] Assemblies { get { return _assemblies.ToArray(); } }
+        public IList<Type> ExplicitTypes { get; }
+        public Assembly[] Assemblies => _assemblies.ToArray();
 
         public void AddType(Type type)
         {
-            if (_explicitTypes.Contains(type)) return;
+            if (ExplicitTypes.Contains(type)) return;
 
-            _explicitTypes.Add(type);
+            ExplicitTypes.Add(type);
             _types = new Lazy<IEnumerable<Type>>(BuildUp);
         }
+
         public void AddSource(Assembly assembly)
         {
             if (_assemblies.Contains(assembly)) return;
@@ -62,7 +64,7 @@ namespace Chassis.Types
                 .SelectMany(a => a.ExportedTypes)
                ;
 
-            return  assTypes.Union(_explicitTypes);
+            return  assTypes.Union(ExplicitTypes);
         }
 
         public IEnumerable<Type> FindImplementorsOf<TInterface>()

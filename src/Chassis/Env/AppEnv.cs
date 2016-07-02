@@ -6,11 +6,11 @@ namespace Chassis.Env
     [DebuggerDisplay("ENV:{_env}")]
     public class AppEnv
     {
-        public const string EnvironmentFile = ".magenv";
-        public const string EnvironmentVariable = "MAG_ENV";
+        public const string EnvironmentFile = ".chassisenv";
+        public const string EnvironmentVariable = "CHASSIS_ENV";
 
         public static readonly AppEnv TEST = new AppEnv("TEST");
-        public static readonly AppEnv PROD = new AppEnv("PRODUCTION");
+        public static readonly AppEnv PRODUCTION = new AppEnv("PRODUCTION");
 
         readonly string _env;
 

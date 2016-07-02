@@ -14,14 +14,8 @@ namespace Chassis.Features
         {
         }
 
-        public string Name
-        {
-            get { return GetType().Name; }
-        }
+        public string Name => GetType().Name.Replace("Feature","");
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
     }
-}   
+}

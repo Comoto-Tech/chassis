@@ -59,7 +59,6 @@
     <Compile Include="Apps\IDispatcher.cs" />
     <Compile Include="Apps\IRequest.cs" />
     <Compile Include="Apps\Rebootable.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Env\AppEnv.cs" />
     <Compile Include="Env\ContainerBuilderExtensions.cs" />
     <Compile Include="Env\FS.cs" />

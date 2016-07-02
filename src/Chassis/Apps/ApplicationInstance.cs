@@ -89,7 +89,7 @@ namespace Chassis.Apps
         //Implemented explicitly as this is a destructive action
         void Rebootable.Reboot()
         {
-            if (AppEnv.ENV.Equals(AppEnv.PROD))
+            if (AppEnv.ENV.Equals(AppEnv.PRODUCTION))
             {
                 //yeah, this isn't going to happen in production
                 return;
@@ -100,15 +100,9 @@ namespace Chassis.Apps
         }
 
         //the types used when scanning in the various types
-        public TypePool Pool
-        {
-            get { return _pool; }
-        }
+        public TypePool Pool => _pool;
 
-        public IContainer Container
-        {
-            get { return _container; }
-        }
+        public IContainer Container => _container;
 
         public IEnumerable<Module> LoadedModules { get; private set; }
         public IEnumerable<Feature> LoadedFeatures { get; private set; }
