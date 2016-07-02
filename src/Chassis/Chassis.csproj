@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>561e2ce4-964e-42fd-ab34-5b59a9d7509e</ProjectGuid>
+    <ProjectGuid>{561E2CE4-964E-42FD-AB34-5B59A9D7509E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Chassis</RootNamespace>
@@ -30,24 +30,64 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apps\AppFactory.cs" />
+    <Compile Include="Apps\ApplicationInstance.cs" />
+    <Compile Include="Apps\IApplication.cs" />
+    <Compile Include="Apps\IApplicationMarker.cs" />
+    <Compile Include="Apps\IDispatcher.cs" />
+    <Compile Include="Apps\IRequest.cs" />
+    <Compile Include="Apps\Rebootable.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Env\AppEnv.cs" />
+    <Compile Include="Env\ContainerBuilderExtensions.cs" />
+    <Compile Include="Env\FS.cs" />
+    <Compile Include="Features\Feature.cs" />
+    <Compile Include="IChassisMarker.cs" />
+    <Compile Include="Introspection\ChassisHostInfo.cs" />
+    <Compile Include="Introspection\HostMetadataCache.cs" />
+    <Compile Include="Introspection\IHostInfo.cs" />
+    <Compile Include="Introspection\IProbeContext.cs" />
+    <Compile Include="Introspection\IProbeResult.cs" />
+    <Compile Include="Introspection\IProbeResultBuilder.cs" />
+    <Compile Include="Introspection\IProbeSite.cs" />
+    <Compile Include="Introspection\ProbeResultBuilder.cs" />
+    <Compile Include="Introspection\ProbeResultExtensions.cs" />
+    <Compile Include="Introspection\ProbeSiteExtensions.cs" />
+    <Compile Include="Introspection\ScopeProbeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup\IWebStartupStep.cs" />
+    <Compile Include="Startup\StartupBootstrapper.cs" />
+    <Compile Include="Startup\StartUpFeature.cs" />
+    <Compile Include="Startup\StartupStep.cs" />
+    <Compile Include="Types\ClosedInfo.cs" />
+    <Compile Include="Types\TypeExtensions.cs" />
+    <Compile Include="Types\TypePool.cs" />
+    <Compile Include="Types\TypeScan.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -57,5 +97,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>
