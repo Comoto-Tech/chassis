@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Autofac;
 using Chassis.Features;
 using Chassis.Introspection;
+using Chassis.Tenants;
 
 namespace Chassis.Apps
 {
@@ -17,5 +18,6 @@ namespace Chassis.Apps
 
         IEnumerable<Module> LoadedModules { get; }
         IEnumerable<Feature> LoadedFeatures { get; }
+        IEnumerable<TenantOverrides> LoadedTenants { get; }
     }
 }
