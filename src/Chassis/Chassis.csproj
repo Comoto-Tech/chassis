@@ -34,6 +34,10 @@
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Autofac.Extras.Multitenant, Version=3.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.Extras.Multitenant.3.1.1\lib\net40\Autofac.Extras.Multitenant.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -80,12 +84,15 @@
     <Compile Include="Startup\StartupBootstrapper.cs" />
     <Compile Include="Startup\StartUpFeature.cs" />
     <Compile Include="Startup\StartupStep.cs" />
+    <Compile Include="Tenants\TenantIdentifier.cs" />
+    <Compile Include="Tenants\TenantOverrides.cs" />
     <Compile Include="Types\ClosedInfo.cs" />
     <Compile Include="Types\TypeExtensions.cs" />
     <Compile Include="Types\TypePool.cs" />
     <Compile Include="Types\TypeScan.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Autofac.Extras.Multitenant;
 using Chassis.Features;
+using Chassis.Tenants;
 using Chassis.Types;
 using Module = Autofac.Module;
 
@@ -60,13 +63,48 @@ namespace Chassis.Apps
 
             var container = builder.Build();
 
+            //tenant overrides
+            var tenantOverrides = new List<TenantOverrides>();
+            ITenantIdentificationStrategy strategy;
+            if (container.TryResolve(out strategy))
+            {
+                var multi = new MultitenantContainer(strategy, container);
+
+                tenantOverrides = (from @override in pool.Query()
+                                       where @override.BaseType == typeof(TenantOverrides)
+                                       where !@override.IsAbstract
+                                       select Activator.CreateInstance(@override))
+                   .Cast<TenantOverrides>()
+                   .ToList();
+
+                foreach (var @override in tenantOverrides)
+                {
+                    multi.ConfigureTenant(@override.TenantId, to =>
+                    {
+                        @override.RegisterComponents(to, pool);
+                    });
+                }
+
+                container = multi;
+            }
+
             stopwatch.Stop();
 
-            return new ApplicationInstance(container,
+            var app = new ApplicationInstance(container,
                 pool,
                 features,
                 modules,
+                tenantOverrides,
                 stopwatch.Elapsed);
+
+            var cb = new ContainerBuilder();
+            cb.RegisterInstance(app)
+                .As<IApplication>()
+                .SingleInstance();
+
+            cb.Update(container);
+
+            return app;
         }
     }
 }

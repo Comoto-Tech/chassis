@@ -15,7 +15,10 @@ MAG.Build(fun b ->
              [| { name = "Chassis"
                   version = "1.0"
                   nuspec = "Package.nuspec"
-                  dependencies = ["Autofac", "3.5.2"]
+                  dependencies = [
+                                  ("Autofac", "3.5.2");
+                                  ("Autofac.Extras.Multitenant", "3.1.1");
+                      ]
                   files = [ (@"**/*.*"), Some "lib", None ]
                   copyFiles =
                     (fun target -> CopyFile target ("./src/Chassis/bin/" @@ b.mode @@ "/Chassis.dll")) } |]

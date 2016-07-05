@@ -5,6 +5,7 @@ using Chassis.Env;
 using Chassis.Features;
 using Chassis.Introspection;
 using Chassis.Startup;
+using Chassis.Tenants;
 using Chassis.Types;
 
 namespace Chassis.Apps
@@ -14,21 +15,19 @@ namespace Chassis.Apps
         readonly IContainer _container;
         readonly TypePool _pool;
 
-        public ApplicationInstance(IContainer container, TypePool pool, IEnumerable<Feature> features, IEnumerable<Module> modules, TimeSpan bootTime)
+        public ApplicationInstance(IContainer container,
+            TypePool pool,
+            IEnumerable<Feature> features,
+            IEnumerable<Module> modules,
+            IEnumerable<TenantOverrides> tenantOverrides,
+            TimeSpan bootTime)
         {
             LoadedFeatures = features;
             LoadedModules = modules;
+            LoadedTenants = tenantOverrides;
             TimeToBoot = bootTime;
 
             _container = container;
-
-            var builder = new ContainerBuilder();
-
-            builder.RegisterInstance(this)
-                .As<IApplication>()
-                .SingleInstance();
-
-            builder.Update(_container);
 
             _pool = pool;
         }
@@ -104,8 +103,10 @@ namespace Chassis.Apps
 
         public IContainer Container => _container;
 
-        public IEnumerable<Module> LoadedModules { get; private set; }
-        public IEnumerable<Feature> LoadedFeatures { get; private set; }
+        public IEnumerable<Module> LoadedModules { get; }
+        public IEnumerable<Feature> LoadedFeatures { get; }
+        public IEnumerable<TenantOverrides> LoadedTenants { get; }
+
         public TimeSpan TimeToBoot { get; private set; }
 
         public void Probe(IProbeContext context)
