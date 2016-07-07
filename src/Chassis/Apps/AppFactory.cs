@@ -22,7 +22,10 @@ namespace Chassis.Apps
             var builder = new ContainerBuilder();
 
             var pool = new TypePool();
+
             pool.AddSource(typeof (TApplication).Assembly);
+            pool.AddSource(typeof(IChassisMarker).Assembly);
+
             foreach (var assembly in assemblies)
             {
                 pool.AddSource(assembly);
