@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Autofac.Core;
 using Chassis.Env;
 using NUnit.Framework;
@@ -8,6 +9,27 @@ namespace Chassis.UnitTests.Env
 {
     public class ContainerBuilderExtensionsTests
     {
+        public class DoubleRegistration
+        {
+            [Test]
+            public void NoDoubleRegistration()
+            {
+                AppEnv.Reset();
+                var cb = new ContainerBuilder();
+
+                Assert.Throws<Exception>(() =>
+                {
+
+                    cb.RegisterEnvironmentType<IService>(env =>
+                    {
+                        env.On<ProdService>(AppEnv.PRODUCTION);
+                        env.On<TestService>(AppEnv.PRODUCTION);
+                    });
+                });
+            }
+
+        }
+
         IContainer _container;
 
         [SetUp]
