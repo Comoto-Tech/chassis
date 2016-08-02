@@ -27,8 +27,13 @@ namespace Chassis.Env
 
         internal TService Resolve(IComponentContext cxt)
         {
-            var t = _maps[AppEnv.ENV];
-            return cxt.Resolve(t) as TService;
+            if (_maps.ContainsKey(AppEnv.ENV))
+            {
+                var t = _maps[AppEnv.ENV];
+                return cxt.Resolve(t) as TService;
+            }
+
+            throw new Exception($"The container does not have an environment registration for '{AppEnv.ENV}' for service type {typeof(TService).Name}");
         }
     }
 }

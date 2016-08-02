@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Chassis.Env;
 using NUnit.Framework;
 using Shouldly;
@@ -46,19 +47,23 @@ namespace Chassis.UnitTests.Env
             a.ShouldBeOfType<TestService>();
         }
 
+        [Test]
+        public void BadEnv()
+        {
+            AppEnv.Set("BAD");
+            Assert.Throws<DependencyResolutionException>(() => { _container.Resolve<IService>(); });
+        }
+
         interface IService
         {
-
         }
 
         class ProdService : IService
         {
-
         }
 
         class TestService : IService
         {
-
         }
     }
 }
