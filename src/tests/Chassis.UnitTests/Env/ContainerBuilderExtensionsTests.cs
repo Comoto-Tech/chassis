@@ -19,7 +19,6 @@ namespace Chassis.UnitTests.Env
 
                 Assert.Throws<Exception>(() =>
                 {
-
                     cb.RegisterEnvironmentType<IService>(env =>
                     {
                         env.On<ProdService>(AppEnv.PRODUCTION);
@@ -27,53 +26,56 @@ namespace Chassis.UnitTests.Env
                     });
                 });
             }
-
         }
 
-        IContainer _container;
-
-        [SetUp]
-        public void SetUp()
+        public class Happy
         {
-            AppEnv.Reset();
-            var cb = new ContainerBuilder();
 
-            cb.RegisterEnvironmentType<IService>(env =>
+            IContainer _container;
+
+            [SetUp]
+            public void SetUp()
             {
-                env.On<ProdService>(AppEnv.PRODUCTION);
-                env.On<TestService>(AppEnv.TEST);
-            });
+                AppEnv.Reset();
+                var cb = new ContainerBuilder();
 
-            _container = cb.Build();
-        }
+                cb.RegisterEnvironmentType<IService>(env =>
+                {
+                    env.On<ProdService>(AppEnv.PRODUCTION);
+                    env.On<TestService>(AppEnv.TEST);
+                });
 
-        [TearDown]
-        public void TearDown()
-        {
-            _container.Dispose();
-        }
+                _container = cb.Build();
+            }
 
-        [Test]
-        public void ProdSwitch()
-        {
-            AppEnv.Set(AppEnv.PRODUCTION);
-            var a = _container.Resolve<IService>();
-            a.ShouldBeOfType<ProdService>();
-        }
+            [TearDown]
+            public void TearDown()
+            {
+                _container.Dispose();
+            }
 
-        [Test]
-        public void TestSwitch()
-        {
-            AppEnv.Set(AppEnv.TEST);
-            var a = _container.Resolve<IService>();
-            a.ShouldBeOfType<TestService>();
-        }
+            [Test]
+            public void ProdSwitch()
+            {
+                AppEnv.Set(AppEnv.PRODUCTION);
+                var a = _container.Resolve<IService>();
+                a.ShouldBeOfType<ProdService>();
+            }
 
-        [Test]
-        public void BadEnv()
-        {
-            AppEnv.Set("BAD");
-            Assert.Throws<DependencyResolutionException>(() => { _container.Resolve<IService>(); });
+            [Test]
+            public void TestSwitch()
+            {
+                AppEnv.Set(AppEnv.TEST);
+                var a = _container.Resolve<IService>();
+                a.ShouldBeOfType<TestService>();
+            }
+
+            [Test]
+            public void BadEnv()
+            {
+                AppEnv.Set("BAD");
+                Assert.Throws<DependencyResolutionException>(() => { _container.Resolve<IService>(); });
+            }
         }
 
         interface IService
