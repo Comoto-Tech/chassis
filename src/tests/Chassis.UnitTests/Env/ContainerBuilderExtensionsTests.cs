@@ -14,7 +14,13 @@ namespace Chassis.UnitTests.Env
         {
             AppEnv.Reset();
             var cb = new ContainerBuilder();
-            cb.RegisterEnvironmentType<IService, ProdService, TestService>();
+
+            cb.RegisterEnvironmentType<IService>(env =>
+            {
+                env.On<ProdService>(AppEnv.PRODUCTION);
+                env.On<TestService>(AppEnv.TEST);
+            });
+
             _container = cb.Build();
         }
 
