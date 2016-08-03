@@ -65,6 +65,7 @@
     <Compile Include="Apps\Rebootable.cs" />
     <Compile Include="Env\AppEnv.cs" />
     <Compile Include="Env\ContainerBuilderExtensions.cs" />
+    <Compile Include="Env\EnvSwitcher.cs" />
     <Compile Include="Env\FS.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="IChassisMarker.cs" />
