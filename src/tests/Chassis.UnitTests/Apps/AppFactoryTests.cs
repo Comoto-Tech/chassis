@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Autofac;
 using Autofac.Core;
-using Autofac.Extras.Multitenant;
+using Autofac.Multitenant;
 using Chassis.Apps;
 using Chassis.Tenants;
 using Chassis.Types;
