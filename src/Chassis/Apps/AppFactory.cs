@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using Autofac.Extras.Multitenant;
+using Autofac.Multitenant;
 using Chassis.Features;
 using Chassis.Tenants;
 using Chassis.Types;
