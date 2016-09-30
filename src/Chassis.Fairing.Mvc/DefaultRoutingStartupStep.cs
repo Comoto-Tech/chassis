@@ -3,7 +3,7 @@ using System.Web.Routing;
 
 namespace Chassis.Fairing.Mvc
 {
-    public class DefaultRouting : IMvcStartupStep
+    public class DefaultRoutingStartupStep : IMvcStartupStep
     {
         public void Boot()
         {
