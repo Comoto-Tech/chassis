@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeRoutesStartupStep.cs" />
     <Compile Include="ChassisWebApiBootstrapper.cs" />
     <Compile Include="IChassisFairingWebApiMarker.cs" />
     <Compile Include="IWebApiStartupStep.cs" />
