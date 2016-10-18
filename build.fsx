@@ -16,8 +16,8 @@ MAG.Build(fun b ->
                   version = "1.0"
                   nuspec = "Package.nuspec"
                   dependencies = [
-                                  ("Autofac", "3.5.2");
-                                  ("Autofac.Extras.Multitenant", "3.1.1");
+                                  ("Autofac", "4.1.1");
+                                  ("Autofac.Multitenant", "4.0.0");
                       ]
                   files = [ (@"**/*.*"), Some "lib", None ]
                   copyFiles =
