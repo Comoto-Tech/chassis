@@ -18,6 +18,7 @@ MAG.Build(fun b ->
                   dependencies = [
                                   ("Autofac", "4.1.1");
                                   ("Autofac.Multitenant", "4.0.0");
+                                  ("Newtonsoft.Json", "6.0.4");
                       ]
                   files = [ (@"**/*.*"), Some "lib", None ]
                   copyFiles =
