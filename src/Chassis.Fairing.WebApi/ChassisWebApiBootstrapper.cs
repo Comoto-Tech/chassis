@@ -6,7 +6,7 @@ namespace Chassis.Fairing.WebApi
 {
     public static class ChassisWebApiBootstrapper
     {
-        public static void Bootstrap(IApplication app, HttpConfiguration cfg)
+        public static void Bootstrap(this IApplication app, HttpConfiguration cfg)
         {
             foreach (var v in app.Resolve<IEnumerable<IWebApiStartupStep>>())
             {

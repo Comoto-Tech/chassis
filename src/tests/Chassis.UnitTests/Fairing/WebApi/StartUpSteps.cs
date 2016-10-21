@@ -16,7 +16,7 @@ namespace Chassis.UnitTests.Fairing.WebApi
                 typeof(IChassisFairingWebApiMarker).Assembly);
             app.Start();
             HttpConfiguration cfg = null;
-            ChassisWebApiBootstrapper.Bootstrap(app, cfg);
+            app.Bootstrap(cfg);
         }
     }
 

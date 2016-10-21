@@ -5,7 +5,7 @@ namespace Chassis.Fairing.Mvc
 {
     public static class ChassisMvcBootstrapper
     {
-        public static void Bootstrap(IApplication app)
+        public static void Bootstrap(this IApplication app)
         {
             foreach (var step in app.Resolve<IEnumerable<IMvcStartupStep>>())
             {

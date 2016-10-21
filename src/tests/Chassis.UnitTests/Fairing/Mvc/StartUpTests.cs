@@ -13,7 +13,7 @@ namespace Chassis.UnitTests.Fairing.Mvc
         {
             var app = AppFactory.Build<MvcApplication>(typeof(IChassisMarker).Assembly, typeof(IChassisFairingMvcMarker).Assembly);
             app.Start();
-            ChassisMvcBootstrapper.Bootstrap(app);
+            app.Bootstrap();
         }
     }
 
