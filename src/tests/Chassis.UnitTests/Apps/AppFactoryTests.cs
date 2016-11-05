@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Multitenant;
 using Chassis.Apps;
+using Chassis.Startup;
 using Chassis.Tenants;
 using Chassis.Types;
 using NUnit.Framework;
@@ -43,6 +44,14 @@ namespace Chassis.UnitTests.Apps
                 _app.Container.TryResolve(out unique).ShouldBe(false);
             }
 
+            [Test]
+            public void AutoScan()
+            {
+                Bob bob;
+                _app.Container.TryResolve(out bob).ShouldBe(true);
+                _app.Start();
+            }
+
         }
 
         public class MultiTenantTests
@@ -76,6 +85,14 @@ namespace Chassis.UnitTests.Apps
                 TenantUnique unique;
                 _app.Container.TryResolve(out unique).ShouldBe(true);
             }
+
+            [Test]
+            public void AutoScan()
+            {
+                Bob bob;
+                _app.Container.TryResolve(out bob).ShouldBe(true);
+                _app.Start();
+            }
         }
 
 
@@ -83,6 +100,21 @@ namespace Chassis.UnitTests.Apps
         class SingleTenant : IApplicationMarker
         {
             public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
+            {
+
+            }
+        }
+
+        public class Bob : IStartupStep
+        {
+            IApplication _application;
+
+            public Bob(IApplication application)
+            {
+                _application = application;
+            }
+
+            public void Execute()
             {
 
             }
