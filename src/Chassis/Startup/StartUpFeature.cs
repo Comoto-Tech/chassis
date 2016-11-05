@@ -9,7 +9,7 @@ namespace Chassis.Startup
         public override void RegisterComponents(ContainerBuilder builder, TypePool pool)
         {
             builder.RegisterType<StartupBootstrapper>()
-                .SingleInstance()
+                .InstancePerLifetimeScope()
                 .AsSelf();
 
             var actions = pool.FindImplementorsOf<IStartupStep>();
