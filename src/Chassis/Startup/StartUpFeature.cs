@@ -20,15 +20,6 @@ namespace Chassis.Startup
                     .As<IStartupStep>()
                     .AsSelf();
             }
-
-            var webActions = pool.FindImplementorsOf<IWebStartupStep>();
-
-            foreach (var action in webActions)
-            {
-                builder.RegisterType(action)
-                    .As<IWebStartupStep>()
-                    .AsSelf();
-            }
         }
     }
 }

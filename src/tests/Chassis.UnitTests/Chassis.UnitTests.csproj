@@ -38,6 +38,10 @@
       <HintPath>..\..\..\packages\Autofac.Multitenant.4.0.0\lib\net451\Autofac.Multitenant.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
@@ -54,11 +58,21 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apps\AppFactoryTests.cs" />
     <Compile Include="Env\AppEnvTests.cs" />
     <Compile Include="Env\ContainerBuilderExtensionsTests.cs" />
+    <Compile Include="Fairing\Mvc\StartUpTests.cs" />
+    <Compile Include="Fairing\WebApi\StartUpSteps.cs" />
     <Compile Include="Features\FeatureTests.cs" />
     <Compile Include="Introspection\HostMetadataCacheTests.cs" />
     <Compile Include="Introspection\ProbeResultBuilderTests.cs" />
@@ -72,6 +86,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Chassis.Fairing.Mvc\Chassis.Fairing.Mvc.csproj">
+      <Project>{8efb3b37-bbcf-49f4-9ab7-872b864820ab}</Project>
+      <Name>Chassis.Fairing.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Chassis.Fairing.WebApi\Chassis.Fairing.WebApi.csproj">
+      <Project>{0ecb9df2-c3df-4feb-89c8-52a6808c2765}</Project>
+      <Name>Chassis.Fairing.WebApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Chassis\Chassis.csproj">
       <Project>{561e2ce4-964e-42fd-ab34-5b59a9d7509e}</Project>
       <Name>Chassis</Name>

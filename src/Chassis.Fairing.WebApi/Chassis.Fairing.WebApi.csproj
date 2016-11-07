@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{561E2CE4-964E-42FD-AB34-5B59A9D7509E}</ProjectGuid>
+    <ProjectGuid>{0ECB9DF2-C3DF-4FEB-89C8-52A6808C2765}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Chassis</RootNamespace>
-    <AssemblyName>Chassis</AssemblyName>
+    <RootNamespace>Chassis.Fairing.WebApi</RootNamespace>
+    <AssemblyName>Chassis.Fairing.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,8 +35,8 @@
       <HintPath>..\..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac.Multitenant, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.Multitenant.4.0.0\lib\net451\Autofac.Multitenant.dll</HintPath>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.WebApi2.4.0.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -43,44 +44,30 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Apps\AppFactory.cs" />
-    <Compile Include="Apps\ApplicationInstance.cs" />
-    <Compile Include="Apps\IApplication.cs" />
-    <Compile Include="Apps\IApplicationMarker.cs" />
-    <Compile Include="Apps\IDispatcher.cs" />
-    <Compile Include="Apps\IRequest.cs" />
-    <Compile Include="Apps\Rebootable.cs" />
-    <Compile Include="Env\AppEnv.cs" />
-    <Compile Include="Env\ContainerBuilderExtensions.cs" />
-    <Compile Include="Env\EnvSwitcher.cs" />
-    <Compile Include="Env\FS.cs" />
-    <Compile Include="Features\Feature.cs" />
-    <Compile Include="IChassisMarker.cs" />
-    <Compile Include="Introspection\ChassisHostInfo.cs" />
-    <Compile Include="Introspection\HostMetadataCache.cs" />
-    <Compile Include="Introspection\IHostInfo.cs" />
-    <Compile Include="Introspection\IProbeContext.cs" />
-    <Compile Include="Introspection\IProbeResult.cs" />
-    <Compile Include="Introspection\IProbeResultBuilder.cs" />
-    <Compile Include="Introspection\IProbeSite.cs" />
-    <Compile Include="Introspection\ProbeResultBuilder.cs" />
-    <Compile Include="Introspection\ProbeResultExtensions.cs" />
-    <Compile Include="Introspection\ProbeSiteExtensions.cs" />
-    <Compile Include="Introspection\ScopeProbeContext.cs" />
+    <Compile Include="AttributeRoutesStartupStep.cs" />
+    <Compile Include="ChassisDependencyResolverStartupStep.cs" />
+    <Compile Include="ChassisWebApiBootstrapper.cs" />
+    <Compile Include="IChassisFairingWebApiMarker.cs" />
+    <Compile Include="IWebApiStartupStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup\StartupBootstrapper.cs" />
-    <Compile Include="Startup\StartUpFeature.cs" />
-    <Compile Include="Startup\StartupStep.cs" />
-    <Compile Include="Tenants\TenantIdentifier.cs" />
-    <Compile Include="Tenants\TenantOverrides.cs" />
-    <Compile Include="Types\ClosedInfo.cs" />
-    <Compile Include="Types\TypeExtensions.cs" />
-    <Compile Include="Types\TypePool.cs" />
-    <Compile Include="Types\TypeScan.cs" />
+    <Compile Include="WebApiStartupFeature.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chassis\Chassis.csproj">
+      <Project>{561e2ce4-964e-42fd-ab34-5b59a9d7509e}</Project>
+      <Name>Chassis</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
