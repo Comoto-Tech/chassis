@@ -11,7 +11,7 @@ namespace Chassis.Meta
     {
         public ApplicationMetaData(IApplicationDefinition appDef, IEnumerable<Module> loadedModules, IEnumerable<Feature> loadedFeatures, IEnumerable<TenantOverrides> loadedTenants, TimeSpan stopwatchElapsed)
         {
-            Name = appDef.GetType().Name;
+            Name = appDef.GetType().Name.Replace("Application","");
             LoadedModules = loadedModules;
             LoadedFeatures = loadedFeatures;
             LoadedTenants = loadedTenants;
