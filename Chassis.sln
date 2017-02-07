@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7CF8FCBF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chassis.UnitTests", "src\tests\Chassis.UnitTests\Chassis.UnitTests.csproj", "{F3CAFCB0-FC29-4C1C-B777-DE283D0F8B54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chassis.IntegrationTests", "src\tests\Chassis.IntegrationTests\Chassis.IntegrationTests.csproj", "{3194D06F-1790-4B03-91A2-2A025DDC6192}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +25,16 @@ Global
 		{F3CAFCB0-FC29-4C1C-B777-DE283D0F8B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3CAFCB0-FC29-4C1C-B777-DE283D0F8B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3CAFCB0-FC29-4C1C-B777-DE283D0F8B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3194D06F-1790-4B03-91A2-2A025DDC6192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3194D06F-1790-4B03-91A2-2A025DDC6192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3194D06F-1790-4B03-91A2-2A025DDC6192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3194D06F-1790-4B03-91A2-2A025DDC6192}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3CAFCB0-FC29-4C1C-B777-DE283D0F8B54} = {7CF8FCBF-F88D-426A-AF1B-0001A951C2E8}
+		{3194D06F-1790-4B03-91A2-2A025DDC6192} = {7CF8FCBF-F88D-426A-AF1B-0001A951C2E8}
 	EndGlobalSection
 EndGlobal
