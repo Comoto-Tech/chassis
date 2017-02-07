@@ -21,12 +21,12 @@ namespace Chassis.Startup
                     .AsSelf();
             }
 
-            var webActions = pool.FindImplementorsOf<IWebStartupStep>();
+            var webActions = pool.FindImplementorsOf<IWebApiStartupStep>();
 
             foreach (var action in webActions)
             {
                 builder.RegisterType(action)
-                    .As<IWebStartupStep>()
+                    .As<IWebApiStartupStep>()
                     .AsSelf();
             }
         }

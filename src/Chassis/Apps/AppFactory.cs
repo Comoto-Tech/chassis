@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Multitenant;
 using Chassis.Features;
+using Chassis.Meta;
 using Chassis.Tenants;
 using Chassis.Types;
 using Module = Autofac.Module;
@@ -14,7 +16,7 @@ namespace Chassis.Apps
 {
     public class AppFactory
     {
-        public static IApplication Build<TApplication>(params Assembly[] assemblies) where TApplication : IApplicationMarker, new()
+        public static async Task<IApplicationInstance> Build<TApplication>(params Assembly[] assemblies) where TApplication : IApplicationDefinition, new()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -23,7 +25,7 @@ namespace Chassis.Apps
 
             var pool = new TypePool();
 
-            pool.AddSource(typeof (TApplication).Assembly);
+            pool.AddSource(typeof(TApplication).Assembly);
             pool.AddSource(typeof(IChassisMarker).Assembly);
 
             foreach (var assembly in assemblies)
@@ -35,26 +37,16 @@ namespace Chassis.Apps
                 .As<TypePool>()
                 .SingleInstance();
 
-            //find all modules for this application
-            var modules = (from module in pool.Query()
-                where module.BaseType == typeof (Module)
-                select Activator.CreateInstance(module))
-                .Cast<Module>()
-                .ToList();
+            var modules = FindAllModules(pool);
+            var features = FindAllFeatures(pool);
+            await Task.WhenAll(modules, features).ConfigureAwait(false);
 
-            foreach (var module in modules)
+            foreach (var module in modules.Result)
             {
                 builder.RegisterModule(module);
             }
 
-            var features = (from feature in pool.Query()
-                           where feature.BaseType == typeof(Feature)
-                           where !feature.IsAbstract
-                           select Activator.CreateInstance(feature))
-                .Cast<Feature>()
-                .ToList();
-
-            foreach (var feature in features)
+            foreach (var feature in features.Result)
             {
                 feature.RegisterComponents(builder, pool);
             }
@@ -73,12 +65,7 @@ namespace Chassis.Apps
             {
                 var multi = new MultitenantContainer(strategy, container);
 
-                tenantOverrides = (from @override in pool.Query()
-                                       where @override.BaseType == typeof(TenantOverrides)
-                                       where !@override.IsAbstract
-                                       select Activator.CreateInstance(@override))
-                   .Cast<TenantOverrides>()
-                   .ToList();
+                tenantOverrides = await FindAllTenantOverrides(pool).ConfigureAwait(false);
 
                 foreach (var @override in tenantOverrides)
                 {
@@ -92,22 +79,60 @@ namespace Chassis.Apps
             }
 
             stopwatch.Stop();
+            var md = new ApplicationMetaData(application, modules.Result, features.Result, tenantOverrides, stopwatch.Elapsed);
+            var app = new ApplicationInstance(container, pool);
 
-            var app = new ApplicationInstance(container,
-                pool,
-                features,
-                modules,
-                tenantOverrides,
-                stopwatch.Elapsed);
-
+            /*
+             * In the near future Autofac will start to disallow the mutation of
+             * a container after it has been created.
+             * https://github.com/autofac/Autofac/issues/811
+             */
+            //TODO: Remove mutation of container after creation.
             var cb = new ContainerBuilder();
             cb.RegisterInstance(app)
-                .As<IApplication>()
+                .As<IApplicationInstance>()
                 .SingleInstance();
+
+            cb.RegisterInstance(md);
 
             cb.Update(container);
 
             return app;
+        }
+
+        static Task<List<Module>> FindAllModules(TypePool pool)
+        {
+            var modules = (from module in pool.Query()
+                           where module.BaseType == typeof(Module)
+                           select Activator.CreateInstance(module))
+                .Cast<Module>()
+                .ToList();
+
+            return Task.FromResult(modules.ToList());
+        }
+
+        static Task<List<Feature>> FindAllFeatures(TypePool pool)
+        {
+            var features =  (from feature in pool.Query()
+                    where feature.BaseType == typeof(Feature)
+                    where !feature.IsAbstract
+                    select Activator.CreateInstance(feature))
+                .Cast<Feature>()
+                .ToList();
+
+            return Task.FromResult(features);
+        }
+
+        static Task<List<TenantOverrides>> FindAllTenantOverrides(TypePool pool)
+        {
+            var tenantOverrides = (from @override in pool.Query()
+                    where @override.BaseType == typeof(TenantOverrides)
+                    where !@override.IsAbstract
+                    select Activator.CreateInstance(@override))
+                .Cast<TenantOverrides>()
+                .ToList();
+
+            return Task.FromResult(tenantOverrides);
         }
     }
 }
