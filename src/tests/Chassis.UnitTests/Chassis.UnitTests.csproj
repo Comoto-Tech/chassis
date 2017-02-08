@@ -60,6 +60,7 @@
     <Compile Include="Env\AppEnvTests.cs" />
     <Compile Include="Env\ContainerBuilderExtensionsTests.cs" />
     <Compile Include="Features\FeatureTests.cs" />
+    <Compile Include="Instance\AppInstanceTests.cs" />
     <Compile Include="Introspection\HostMetadataCacheTests.cs" />
     <Compile Include="Introspection\ProbeResultBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

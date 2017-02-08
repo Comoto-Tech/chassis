@@ -69,6 +69,7 @@
     <Compile Include="Env\FS.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="IChassisMarker.cs" />
+    <Compile Include="Instance\AppInstance.cs" />
     <Compile Include="Integration\Consul\ConsulStartupStep.cs" />
     <Compile Include="Introspection\ChassisHostInfo.cs" />
     <Compile Include="Introspection\HostMetadataCache.cs" />

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Chassis.Startup;
 
 namespace Chassis.Integration.Consul
 {
     public class ConsulStartupStep : IStartupStep
     {
-        public void Execute()
+        public Task Execute()
         {
             using (var client = new HttpClient())
             {
@@ -29,6 +30,8 @@ namespace Chassis.Integration.Consul
                 }).Result;
                 // set up a health check endpoint
             }
+
+            return Task.FromResult(true);
         }
     }
 
