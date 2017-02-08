@@ -1,7 +1,9 @@
-﻿namespace Chassis.Startup
+﻿using System.Threading.Tasks;
+
+namespace Chassis.Startup
 {
     public interface IStartupStep
     {
-        void Execute();
+        Task Execute();
     }
 }

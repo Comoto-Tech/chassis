@@ -58,8 +58,8 @@
   <ItemGroup>
     <Compile Include="Apps\AppFactory.cs" />
     <Compile Include="Apps\ApplicationInstance.cs" />
-    <Compile Include="Apps\IApplication.cs" />
-    <Compile Include="Apps\IApplicationMarker.cs" />
+    <Compile Include="Apps\IApplicationInstance.cs" />
+    <Compile Include="Apps\IApplicationDefinition.cs" />
     <Compile Include="Apps\IDispatcher.cs" />
     <Compile Include="Apps\IRequest.cs" />
     <Compile Include="Apps\Rebootable.cs" />
@@ -80,8 +80,9 @@
     <Compile Include="Introspection\ProbeResultExtensions.cs" />
     <Compile Include="Introspection\ProbeSiteExtensions.cs" />
     <Compile Include="Introspection\ScopeProbeContext.cs" />
+    <Compile Include="Meta\ApplicationMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup\IWebStartupStep.cs" />
+    <Compile Include="Startup\IWebApiStartupStep.cs" />
     <Compile Include="Startup\StartupBootstrapper.cs" />
     <Compile Include="Startup\StartUpFeature.cs" />
     <Compile Include="Startup\StartupStep.cs" />

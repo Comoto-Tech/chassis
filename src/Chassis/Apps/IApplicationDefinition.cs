@@ -3,7 +3,7 @@ using Chassis.Types;
 
 namespace Chassis.Apps
 {
-    public interface IApplicationMarker
+    public interface IApplicationDefinition
     {
         void ConfigureContainer(TypePool pool, ContainerBuilder builder);
     }

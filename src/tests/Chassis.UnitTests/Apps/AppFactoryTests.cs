@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using Autofac.Multitenant;
 using Chassis.Apps;
+using Chassis.Meta;
 using Chassis.Startup;
 using Chassis.Tenants;
 using Chassis.Types;
@@ -15,25 +17,25 @@ namespace Chassis.UnitTests.Apps
     {
         public class SingleTenantTests
         {
-            IApplication _app;
+            IApplicationInstance _app;
 
             [OneTimeSetUp]
-            public void SetUp()
+            public async Task SetUp()
             {
-                _app = AppFactory.Build<SingleTenant>(typeof(IChassisMarker).Assembly);
+                _app = await AppFactory.Build<SingleTenant>(typeof(IChassisMarker).Assembly);
             }
 
             [Test]
             public void IsSingleTenant()
             {
                 _app.Container.ShouldBeOfType<Container>();
-                _app.LoadedTenants.Count().ShouldBe(0);
+                _app.Container.Resolve<ApplicationMetaData>().LoadedTenants.Count().ShouldBe(0);
             }
 
             [Test]
             public void IsSingleTenant_ShouldHaveApplicationInstance()
             {
-                var app = _app.Resolve<IApplication>();
+                var app = _app.Resolve<IApplicationInstance>();
                 app.ShouldNotBe(null);
             }
 
@@ -52,30 +54,37 @@ namespace Chassis.UnitTests.Apps
                 _app.Start();
             }
 
+
+            [Test]
+            public void CorrectName()
+            {
+                var metaData = _app.Container.Resolve<ApplicationMetaData>();
+                metaData.Name.ShouldBe("SingleTenant");
+            }
         }
 
         public class MultiTenantTests
         {
-            IApplication _app;
+            IApplicationInstance _app;
 
             [OneTimeSetUp]
-            public void SetUp()
+            public async Task SetUp()
             {
-                _app = AppFactory.Build<MulitTenant>(typeof(IChassisMarker).Assembly);
+                _app = await AppFactory.Build<MultiTenant>(typeof(IChassisMarker).Assembly);
             }
 
             [Test]
             public void IsMultiTenant()
             {
                 _app.Container.ShouldBeOfType<MultitenantContainer>();
-                _app.LoadedTenants.Count().ShouldBe(1);
+                _app.Container.Resolve<ApplicationMetaData>().LoadedTenants.Count().ShouldBe(1);
             }
 
 
             [Test]
             public void ShouldHaveApplicationInstance()
             {
-                var app = _app.Resolve<IApplication>();
+                var app = _app.Resolve<IApplicationInstance>();
                 app.ShouldNotBe(null);
             }
 
@@ -93,11 +102,18 @@ namespace Chassis.UnitTests.Apps
                 _app.Container.TryResolve(out bob).ShouldBe(true);
                 _app.Start();
             }
+
+            [Test]
+            public void CorrectName()
+            {
+                var metaData = _app.Container.Resolve<ApplicationMetaData>();
+                metaData.Name.ShouldBe("MultiTenant");
+            }
         }
 
 
 
-        class SingleTenant : IApplicationMarker
+        class SingleTenant : IApplicationDefinition
         {
             public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
             {
@@ -107,20 +123,20 @@ namespace Chassis.UnitTests.Apps
 
         public class Bob : IStartupStep
         {
-            IApplication _application;
+            IApplicationInstance _applicationInstance;
 
-            public Bob(IApplication application)
+            public Bob(IApplicationInstance applicationInstance)
             {
-                _application = application;
+                _applicationInstance = applicationInstance;
             }
 
-            public void Execute()
+            public Task Execute()
             {
-
+                return Task.FromResult(true);
             }
         }
 
-        class MulitTenant : IApplicationMarker
+        class MultiTenant : IApplicationDefinition
         {
             public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
             {
