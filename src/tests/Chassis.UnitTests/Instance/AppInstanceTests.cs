@@ -44,14 +44,12 @@ namespace Chassis.UnitTests.Instance
             AppInstance.INSTANCE.ShouldBe("00");
         }
 
-
         [Test]
         public void EnvOverridesFile()
         {
             Environment.SetEnvironmentVariable(AppInstance.EnvironmentVariable, "INSTANCE");
             AppInstance.INSTANCE.ShouldBe("INSTANCE");
         }
-
 
         [Test]
         public void ShouldUpper()

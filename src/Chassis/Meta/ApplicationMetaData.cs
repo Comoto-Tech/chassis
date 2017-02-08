@@ -9,9 +9,10 @@ namespace Chassis.Meta
 {
     public class ApplicationMetaData
     {
-        public ApplicationMetaData(IApplicationDefinition appDef, IEnumerable<Module> loadedModules, IEnumerable<Feature> loadedFeatures, IEnumerable<TenantOverrides> loadedTenants, TimeSpan stopwatchElapsed)
+        public ApplicationMetaData(IApplicationDefinition appDef, string instance, IEnumerable<Module> loadedModules, IEnumerable<Feature> loadedFeatures, IEnumerable<TenantOverrides> loadedTenants, TimeSpan stopwatchElapsed)
         {
             Name = appDef.GetType().Name.Replace("Application","");
+            Instance = instance;
             LoadedModules = loadedModules;
             LoadedFeatures = loadedFeatures;
             LoadedTenants = loadedTenants;
@@ -19,6 +20,7 @@ namespace Chassis.Meta
         }
 
         public string Name { get; }
+        public string Instance { get; }
         public IEnumerable<Module> LoadedModules { get; }
         public IEnumerable<Feature> LoadedFeatures { get; }
         public IEnumerable<TenantOverrides> LoadedTenants { get; }
