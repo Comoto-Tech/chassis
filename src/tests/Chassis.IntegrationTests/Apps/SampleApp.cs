@@ -4,9 +4,9 @@ using Chassis.Types;
 
 namespace Chassis.IntegrationTests.Apps
 {
-    public class SampleApp : IApplicationMarker
+    public class SampleApp : IApplicationDefinition
     {
-        public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
+        public void ConfigureApplication(TypePool pool, ContainerBuilder builder)
         {
 
         }

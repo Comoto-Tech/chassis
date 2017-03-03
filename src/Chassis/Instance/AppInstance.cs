@@ -8,7 +8,7 @@ namespace Chassis.Instance
     {
         public const string EnvironmentVariable = "CHASSIS_INSTANCE";
 
-        public static AppInstance DEFAULT = new AppInstance("00");
+        public static AppInstance Default = new AppInstance("00");
 
         readonly string _instance;
 
@@ -17,22 +17,22 @@ namespace Chassis.Instance
             _instance = instance;
         }
 
-        public static AppInstance INSTANCE
+        public static AppInstance External
         {
             [DebuggerStepThrough]
             get
             {
                 var envStr = Environment.GetEnvironmentVariable(EnvironmentVariable)
-                    ?? environmentSpecifiedInAppConfig();
+                    ?? InstanceSpecifiedInAppConfig();
 
-                var env = DEFAULT;
+                var env = Default;
                 if(envStr != null) env = new AppInstance(envStr.ToUpper());
 
                 return env;
             }
         }
 
-        static string environmentSpecifiedInAppConfig()
+        static string InstanceSpecifiedInAppConfig()
         {
             return System.Configuration.ConfigurationManager.AppSettings["AppInstance"];
         }

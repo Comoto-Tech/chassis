@@ -22,7 +22,10 @@ namespace Chassis.UnitTests.Apps
             [OneTimeSetUp]
             public async Task SetUp()
             {
-                _app = await AppFactory.Build<SingleTenant>(typeof(IChassisMarker).Assembly);
+                _app = await AppFactory.Build<SingleTenant>(opt =>
+                {
+                    opt.AddAssemblyOfType<IChassisMarker>();
+                });
             }
 
             [Test]
@@ -70,7 +73,7 @@ namespace Chassis.UnitTests.Apps
             [OneTimeSetUp]
             public async Task SetUp()
             {
-                _app = await AppFactory.Build<MultiTenant>(typeof(IChassisMarker).Assembly);
+                _app = await AppFactory.Build<MultiTenant>(opt => opt.AddAssemblyOfType<IChassisMarker>());
             }
 
             [Test]
@@ -115,7 +118,7 @@ namespace Chassis.UnitTests.Apps
 
         class SingleTenant : IApplicationDefinition
         {
-            public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
+            public void ConfigureApplication(TypePool pool, ContainerBuilder builder)
             {
 
             }
@@ -138,7 +141,7 @@ namespace Chassis.UnitTests.Apps
 
         class MultiTenant : IApplicationDefinition
         {
-            public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
+            public void ConfigureApplication(TypePool pool, ContainerBuilder builder)
             {
                 builder.RegisterType<FakeStrategy>()
                     .As<ITenantIdentificationStrategy>();

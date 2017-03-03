@@ -5,6 +5,6 @@ namespace Chassis.Apps
 {
     public interface IApplicationDefinition
     {
-        void ConfigureContainer(TypePool pool, ContainerBuilder builder);
+        void ConfigureApplication(TypePool pool, ContainerBuilder builder);
     }
 }

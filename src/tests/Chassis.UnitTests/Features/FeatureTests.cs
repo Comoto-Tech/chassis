@@ -37,7 +37,7 @@ namespace Chassis.UnitTests.Features
 
         class SampleApp : IApplicationDefinition
         {
-            public void ConfigureContainer(TypePool pool, ContainerBuilder builder)
+            public void ConfigureApplication(TypePool pool, ContainerBuilder builder)
             {
 
             }

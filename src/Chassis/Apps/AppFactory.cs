@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Multitenant;
 using Chassis.Features;
+using Chassis.Instance;
 using Chassis.Meta;
 using Chassis.Tenants;
 using Chassis.Types;
@@ -14,10 +15,41 @@ using Module = Autofac.Module;
 
 namespace Chassis.Apps
 {
+    public class InstanceBuilder : IInstanceOptions
+    {
+        public IList<Assembly> Assemblies { get; } = new List<Assembly>();
+        public AppInstance InstanceName { get; set; } = new AppInstance("00");
+
+        public void AddAssemblyOfType<T>()
+        {
+            Assemblies.Add(typeof(T).Assembly);
+        }
+
+        public void SetInstanceName(AppInstance instanceName)
+        {
+            InstanceName = instanceName;
+        }
+
+        public void GetInstanceNameFromEnvVar()
+        {
+            InstanceName = AppInstance.External.ToString();
+        }
+    }
+
+    public interface IInstanceOptions
+    {
+        void AddAssemblyOfType<T>();
+        void SetInstanceName(AppInstance instanceName);
+        void GetInstanceNameFromEnvVar();
+    }
+
     public class AppFactory
     {
-        public static async Task<IApplicationInstance> Build<TApplication>(params Assembly[] assemblies) where TApplication : IApplicationDefinition, new()
+        public static async Task<IApplicationInstance> Build<TApplication>(Action<IInstanceOptions> action = null) where TApplication : IApplicationDefinition, new()
         {
+            var opt = new InstanceBuilder();
+            action?.Invoke(opt);
+
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -28,7 +60,7 @@ namespace Chassis.Apps
             pool.AddSource(typeof(TApplication).Assembly);
             pool.AddSource(typeof(IChassisMarker).Assembly);
 
-            foreach (var assembly in assemblies)
+            foreach (var assembly in opt.Assemblies)
             {
                 pool.AddSource(assembly);
             }
@@ -54,7 +86,7 @@ namespace Chassis.Apps
             //application overrides
             var application = new TApplication();
 
-            application.ConfigureContainer(pool, builder);
+            application.ConfigureApplication(pool, builder);
 
             var container = builder.Build();
 
@@ -79,7 +111,7 @@ namespace Chassis.Apps
             }
 
             stopwatch.Stop();
-            var md = new ApplicationMetaData(application, modules.Result, features.Result, tenantOverrides, stopwatch.Elapsed);
+            var md = new ApplicationMetaData(application, AppInstance.External.ToString(), modules.Result, features.Result, tenantOverrides, stopwatch.Elapsed);
             var app = new ApplicationInstance(container, pool);
 
             /*

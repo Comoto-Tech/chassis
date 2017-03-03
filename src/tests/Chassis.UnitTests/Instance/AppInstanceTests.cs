@@ -1,5 +1,4 @@
 ﻿using System;
-using Chassis.Env;
 using Chassis.Instance;
 using NUnit.Framework;
 using Shouldly;
@@ -19,13 +18,13 @@ namespace Chassis.UnitTests.Instance
         [Test]
         public void EqualityChecks()
         {
-            AppInstance.INSTANCE.ShouldBe(AppInstance.DEFAULT);
+            AppInstance.External.ShouldBe(AppInstance.Default);
         }
 
         [Test]
         public void DoubleEquals()
         {
-            var a = AppInstance.INSTANCE == AppInstance.DEFAULT;
+            var a = AppInstance.External == AppInstance.Default;
             a.ShouldBe(true);
         }
 
@@ -34,28 +33,28 @@ namespace Chassis.UnitTests.Instance
         public void DoubleEqualsOnProd()
         {
             Environment.SetEnvironmentVariable(AppInstance.EnvironmentVariable, "PRODUCTION");
-            var a = AppInstance.INSTANCE == new AppInstance("PRODUCTION");
+            var a = AppInstance.External == new AppInstance("PRODUCTION");
             a.ShouldBe(true);
         }
 
         [Test]
         public void DefaultShouldBeTest()
         {
-            AppInstance.INSTANCE.ShouldBe("00");
+            AppInstance.External.ShouldBe("00");
         }
 
         [Test]
         public void EnvOverridesFile()
         {
             Environment.SetEnvironmentVariable(AppInstance.EnvironmentVariable, "INSTANCE");
-            AppInstance.INSTANCE.ShouldBe("INSTANCE");
+            AppInstance.External.ShouldBe("INSTANCE");
         }
 
         [Test]
         public void ShouldUpper()
         {
             Environment.SetEnvironmentVariable(AppInstance.EnvironmentVariable, "iii");
-            AppInstance.INSTANCE.ShouldBe("III");
+            AppInstance.External.ShouldBe("III");
         }
     }
 }
